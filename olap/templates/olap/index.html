@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OLAP</title>
+	<style>
+		table {
+		    font-family: arial, sans-serif;
+		    border-collapse: collapse;
+		    width: 100%;
+		}
+
+		td, th {
+		    border: 1px solid #dddddd;
+		    text-align: left;
+		    padding: 8px;
+		}
+
+		tr:nth-child(even) {
+		    background-color: #dddddd;
+		}
+	</style>
+</head>
+<body>
+	<h1>Sistema OLAP para visualização de dados</h1>
+	{{sinal1}}
+	<table>
+	  <tr>
+	  	<th></th>
+		<th colspan="4">Tempo</th>	
+	  </tr>
+	  <tr>
+	  	{% for cab in dados.cab %}
+	  		<th>{{cab}} <a href="">+</a></th>
+	  	{% endfor %}
+	  </tr>
+	  {% for lin in dados.tabela %}
+		  <tr>
+			  {% for dado in lin%}
+				    <td>{{dado}}</td>  
+			  {% endfor %}
+		  </tr>
+	  {% endfor %}
+	</table>
+</body>
+</html>

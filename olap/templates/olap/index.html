@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,27 +20,91 @@
 		    background-color: #dddddd;
 		}
 	</style>
+
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 	<h1>Sistema OLAP para visualização de dados</h1>
-	{{sinal1}}
-	<table>
-	  <tr>
-	  	<th></th>
-		<th colspan="4">Tempo</th>	
-	  </tr>
-	  <tr>
-	  	{% for cab in dados.cab %}
-	  		<th>{{cab}} <a href="">+</a></th>
-	  	{% endfor %}
-	  </tr>
-	  {% for lin in dados.tabela %}
-		  <tr>
-			  {% for dado in lin%}
-				    <td>{{dado}}</td>  
-			  {% endfor %}
-		  </tr>
-	  {% endfor %}
-	</table>
+	{{dados.estado}}
+	<div class="row">
+		<div class="col-lg-9">
+			<table>
+			  <tr>
+			  	<th></th>
+				<th colspan="{{dados.cols}}">Tempo</th>	
+			  </tr>
+			  <tr>
+			  	{% for cab in dados.cab %}
+			  		<th colspan="{{cab.1}}">
+			  			<form method="post">
+			  				{{cab.0}}
+			  				{% csrf_token %}
+			  				<input type="hidden" name="estado" value="{{dados.estado}}">
+			  				<input type="hidden" name="mudanca" value="{{cab.0}}">	
+			  				<button type="submit">+</button>
+			  			</form>
+			  		</th>
+			  	{% endfor %}
+			  </tr>
+			  <tr>
+			  	{% for sub in dados.subcab %}
+			  		<td> {{sub}} </td>
+			  	{% endfor %}
+			  </tr>
+			  {% if dados.orientacao %}
+			  	{% for linha in dados.lin %}
+			  		<tr>
+			  			{% for cel in linha %}
+							<td>{{cel}}</td>
+						{% endfor %}
+			  		</tr>
+			  	{% endfor %}
+			  {% else %}
+				  <tr>
+					  {% for celula in dados.lin%}
+						    <td>{{celula}}</td>  
+					  {% endfor %}
+				  </tr>
+			  {% endif %}
+
+			</table>	
+		</div>
+	</div>
+
+	
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Flot Charts JavaScript -->
+    <script src="../vendor/flot/excanvas.min.js"></script>
+    <script src="../vendor/flot/jquery.flot.js"></script>
+    <script src="../vendor/flot/jquery.flot.pie.js"></script>
+    <script src="../vendor/flot/jquery.flot.resize.js"></script>
+    <script src="../vendor/flot/jquery.flot.time.js"></script>
+    <script src="../vendor/flot-tooltip/jquery.flot.tooltip.min.js"></script>
+    <script src="../data/flot-data.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
 </body>
 </html>
